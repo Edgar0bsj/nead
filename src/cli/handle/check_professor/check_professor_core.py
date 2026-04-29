@@ -1,4 +1,4 @@
-from src.cli.handle.check_professor.checks import check_courses, check_descipline
+from src.cli.handle.check_professor.checks import check_courses, check_descipline, check_professor
 from src.cli.handle.check_professor.clear_df import clear_data
 from src.cli.handle.check_professor.create_dataframe import getDataFrame
 from src.cli.util.check_if_file_exists import check_if_file_exists
@@ -17,12 +17,22 @@ def check_professor_core(path_data_base:str, path_data_ref:str):
         sleep(0.3)
         df_base = check_descipline(df_base, df_ref)
 
+        df_base = check_professor(df_base, df_ref)
 
+
+        df_base = df_base[df_base["check_professor"] == "Não consta"]
+
+        print(df_base.head(10))
+
+        df_base.to_excel(
+                        excel_writer = "conflitos.xlsx", 
+                        index=False,
+                        sheet_name="Dados_Finais",
+                        columns=["TURMA","DISCIPLINA","NOME_PROFESSOR"]
+                        )
+        print("SALVO COM SUCESSO!")
 #========================================= TESTE
 
-        # consta = df_base[df_base['check_curso'] == 'Não consta']
-        consta = df_base[df_base['check_descipline'] == 'Consta']
-        print(consta.head())
         input(" ")
 
     except ImportError as err:

@@ -101,4 +101,48 @@ def check_descipline(df_base, df_ref):
 
     return df_base
 
+def check_professor(df_base, df_ref):
+    status_check_professor = []
+    status_check_diciplina = [] #<- para o futuro
+    abbreviations = {
+        "erick marrouco":"erick de sousa marouco"
+    }
 
+    for professor, diciplina in tqdm(
+        iterable= zip(df_base['NOME_PROFESSOR'], df_base['DISCIPLINA']),
+        desc='VERIFICANDO PROFESSORES',
+        total= len(df_base),
+        unit= "MB",
+        colour="green"
+    ):
+        professor_alvo = text_cleaning(str(professor))
+        disciplina_alvo = text_cleaning(str(diciplina))
+
+        professor_encontrado = False
+        diciplina_encontrado = False #<- para o futuro
+
+        for professor_ref in df_ref["PROFESSORES"]:
+            professor_ref_alvo = text_cleaning(professor_ref)
+            diciplina_encontrado = True
+
+            for key, value in abbreviations.items():
+                if fuzz.token_set_ratio(key, professor_ref_alvo) >= 80: 
+                    professor_ref_alvo = value
+
+            if fuzz.token_set_ratio(professor_ref_alvo, professor_alvo) >= 80:
+                
+                for diciplina_ref in df_ref["DISCIPLINA"]:
+                    diciplina_ref_alvo = text_cleaning(diciplina_ref)
+
+                    if fuzz.token_set_ratio(diciplina_ref_alvo, disciplina_alvo) >= 80:
+                        professor_encontrado = True
+
+        if professor_encontrado:
+            status_check_professor.append("Consta")
+        else:
+            status_check_professor.append("Não consta")
+
+
+    df_base['check_professor'] = status_check_professor
+
+    return df_base
