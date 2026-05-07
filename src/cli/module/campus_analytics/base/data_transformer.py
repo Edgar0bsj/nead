@@ -1,3 +1,0 @@
-from abc import ABC
-
-class DataTransformer(ABC):...
