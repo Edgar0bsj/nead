@@ -6,7 +6,9 @@ base.xlsx
 ~$ref.xlsx
 ref.xlsx
 
-data/
+sophia.xlsx
+dados_atualizado.xlsx
+dados.xlsx
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
