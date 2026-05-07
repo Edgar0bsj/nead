@@ -6,6 +6,8 @@ base.xlsx
 ~$ref.xlsx
 ref.xlsx
 
+data/
+
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
