@@ -1,19 +1,7 @@
-from src.multi_docencia_insights.mdi import Mdi
-from src.data_cross_referencing_analysis.analysis import data_cross_referencing_analysis
+from src.module.factory.AnalysisToolFactory import AnalysisToolFactory
+from src.module.factory.EnumAnalysis import EnumAnalysis
 
 
-mdi = Mdi()
+disciplinasComMultiplosDocentes = AnalysisToolFactory.get_class(EnumAnalysis.DISCIPLINAS_COM_MULTIPLOS_DOCENTES.value)
+result = disciplinasComMultiplosDocentes.GerarPlanilhaDisciplinasMultidocentes()
 
-df = mdi.getDf()
-
-mdi.save_to_excel()
-
-
-print(df.head())
-print(df.info())
-print(df.to_markdown(index=False))
-
-
-# print(df.head())
-# print(df.info())
-# print(df.isnull().sum())
