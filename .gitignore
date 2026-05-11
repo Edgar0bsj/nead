@@ -5,10 +5,13 @@ src/teste.py
 base.xlsx
 ~$ref.xlsx
 ref.xlsx
+analise_base.xlsx
+mapa_referencia.xlsx
 
 sophia.xlsx
 dados_atualizado.xlsx
 dados.xlsx
+diciplinas.xlsx
 
 ### Python ###
 # Byte-compiled / optimized / DLL files

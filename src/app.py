@@ -1,7 +1,0 @@
-from src.module.factory.AnalysisToolFactory import AnalysisToolFactory
-from src.module.factory.EnumAnalysis import EnumAnalysis
-
-
-disciplinasComMultiplosDocentes = AnalysisToolFactory.get_class(EnumAnalysis.DISCIPLINAS_COM_MULTIPLOS_DOCENTES.value)
-result = disciplinasComMultiplosDocentes.GerarPlanilhaDisciplinasMultidocentes()
-
