@@ -58,3 +58,57 @@ project/
 2. **Processar dados** → limpeza, normalização e cálculos.  
 3. **Gerar features** → métricas e indicadores prontos para uso.  
 4. **Expor via API** → endpoints REST para consumo externo.  
+
+# Fluxo de Desenvolvimento
+
+- [x] TURMA -> G - 2026.1.1.3P - Análise e Des. de Sistemas
+- [x] DISCIPLINA -> Ciências do Ambiente
+- [x] NOME_PROFESSOR -> Alan Jeferson de Oliveira da Silva 
+Aqui está um modelo de **README conceitual** para documentar o fluxo de trabalho da planilha **Analise_base.xlsx**, com explicação passo a passo e sugestões de melhorias para deixar o processo mais robusto e profissional:
+
+---
+
+# Fluxo de Análise — Analise_base.xlsx
+
+### 1. **Filtro**
+Aplicar filtros iniciais para selecionar apenas os registros relevantes:
+- **POLO** → Nova Iguaçu  
+- **MODALIDADE** → G  
+- **ENTRADA** → 2  
+
+---
+
+### 2. **Colunas novas**
+Adicionar colunas derivadas para enriquecer os dados:
+- **CURSO** → Farmácia  
+- **PERIODO** → 1  
+
+---
+
+### 3. **Capturar colunas de interesse**
+Selecionar apenas os campos relevantes para análise:
+- **TURMA**, **DISCIPLINA**, **NOME_PROFESSOR**, **CURSO**, **PERIODO**
+
+---
+
+### 4. **Retirar duplicatas com offset**
+Remover registros duplicados considerando:
+- **TURMA**, **DISCIPLINA**, **NOME_PROFESSOR**, **CURSO**, **PERIODO**
+
+---
+
+### 5. **Mapper**
+Padronizar valores de colunas:
+- **CURSO** → "Farmácia" convertido para **"FARM."**
+
+---
+
+### 6. **Tratar coluna PERIODO**
+Normalizar o tipo de dado:
+- Converter para **INT padrão**
+
+---
+
+### 7. **Resultado final**
+Dataset final com colunas organizadas:
+- **TURMA**, **CURSO**, **PERIODO**, **DISCIPLINA**, **NOME_PROFESSOR**
