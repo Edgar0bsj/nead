@@ -4,6 +4,7 @@ SETTINGS = {
         'POLO': 'Nova Iguaçu',
         'MODALIDADE': 'G'
     },
+    'entrada':"2"
 }
 
 COURSE_MAPPER = {

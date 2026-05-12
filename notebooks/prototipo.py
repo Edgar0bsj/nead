@@ -1,6 +1,9 @@
 import numpy as np
 import pandas as pd
 import unicodedata
+from colorama import Fore, Style
+
+from tqdm import tqdm
 from .settings import COURSE_MAPPER, PROFESSOR_MAPPER, SETTINGS as CONFIG
 from time import sleep
 from thefuzz import process
@@ -15,7 +18,7 @@ def apply_filters(df: pd.DataFrame)-> pd.DataFrame:
         df = df[df[coluna] == valor]
     
     df["ENTRADA"] = df["TURMA"].str.extract(r'\.(\d)\.\dP\s-')
-    df = df[ df['ENTRADA'] == "2" ]
+    df = df[ df['ENTRADA'] == CONFIG["entrada"] ]
     
     return df
 
@@ -74,17 +77,11 @@ def mech_data(df: pd.DataFrame, dff_path: str, threshold: int = 90) -> pd.DataFr
 
     status = []
 
-    for _, row in df.iterrows():
+    for _, row in tqdm(df.iterrows(),total=len(df), colour='cyan'):
         curso = row['CURSO']
         disciplina = row['DISCIPLINA']
         periodo = row['PERIODO']
         professor = row['NOME_PROFESSOR']
-
-        print('CURSO:', curso)
-        print('DISCIPLINA:', disciplina)
-        print('PERIODO:', periodo)
-        print('PROFESSOR:', professor)
-        print('=' * 50)
 
         curso_match, curso_score = process.extractOne(str(curso), cursos_ref)
         disciplina_match, disciplina_score = process.extractOne(str(disciplina), disciplinas_ref)
@@ -111,81 +108,13 @@ def mech_data(df: pd.DataFrame, dff_path: str, threshold: int = 90) -> pd.DataFr
         else:
             msg = "Erro não mapeado"
 
-        print(msg)
+        # print(msg)
+        tqdm.write(Fore.YELLOW + f"[process] {msg} CURSO: {curso} DISCIPLINA: {disciplina} PERIODO: {periodo} PROFESSOR: {professor} " + Style.RESET_ALL)
         status.append(msg)
-        # sleep(0.5)
+        sleep(0.03)
 
     df['STATUS'] = status
     return df
-
-
-def add_merge_df(df: pd.DataFrame, dff_path:str)-> pd.DataFrame:
-    
-    dff = pd.read_excel(dff_path)
-    
-    dff['CURSO'] = dff['CURSO'].str.strip()
-    dff['CURSO'] = dff['CURSO'].str.title()
-    
-    dff['DISCIPLINA'] = dff['DISCIPLINA'].str.strip()
-    dff['DISCIPLINA'] = dff['DISCIPLINA'].str.title()
-    
-    dff['PROFESSORES'] = dff['PROFESSORES'].str.strip()
-    dff['PROFESSORES'] = dff['PROFESSORES'].str.title()
-    
-    df['CURSO'] = df['CURSO'].str.strip()
-    df['CURSO'] = df['CURSO'].str.title()
-    
-    df['DISCIPLINA'] = df['DISCIPLINA'].str.strip()
-    df['DISCIPLINA'] = df['DISCIPLINA'].str.title()
-    
-    df['NOME_PROFESSOR'] = df['NOME_PROFESSOR'].str.strip()
-    df['NOME_PROFESSOR'] = df['NOME_PROFESSOR'].str.title()
-    
-    
-    dff = dff.rename(columns={
-        "CURSO": "CURSO_REFE",
-        "PERÍODO": "PERIODO_REFE",
-        "DISCIPLINA": "DISCIPLINA_REFE",
-        "PROFESSORES": "PROFESSORES_REFE",
-        })
-    
-    df_merged = pd.merge(
-        df,
-        dff,
-        left_on=["CURSO", "PERIODO", "DISCIPLINA", "NOME_PROFESSOR"],
-        right_on=["CURSO_REFE", "PERIODO_REFE", "DISCIPLINA_REFE", "PROFESSORES_REFE"],
-        how="outer",
-        indicator=True
-        )
-    
-    df_merged["STATUS"] = np.select(
-        [
-            df_merged["_merge"] == "both",
-            df_merged["_merge"] == "left_only",
-            df_merged["_merge"] == "right_only",
-        ],
-        [
-            "OK",
-            "SOMENTE_SOPHIA",
-            "SOMENTE_NA_PLANILHA"
-        ],
-        default="..."
-    )
-    
-    df_merged = df_merged[[
-        'TURMA',
-        'DISCIPLINA',
-        'NOME_PROFESSOR',
-        'CURSO',
-        'PERIODO',
-        'CURSO_REFE',
-        'PERIODO_REFE',
-        'DISCIPLINA_REFE',
-        'PROFESSORES_REFE',
-        'STATUS'
-    ]]
-    
-    return df_merged
 
 # =============
 df = get_dataFrame()
@@ -197,10 +126,9 @@ df = select_interest_columns(df)
 df = remove_duplicates_with_offset(df)
 df = replace_values_mapper(df)
 df = mech_data(df, 'C:/Users/unig.ead/Documents/analysis/data/mapa-referencia-xlsx.xlsx')
-# df = add_merge_df(df,'C:/Users/unig.ead/Documents/analysis/data/mapa-referencia-xlsx.xlsx')
 
 print(df.head())
 print(df.info())
 
-df.to_excel("resultado.xlsx", index= False)
+# df.to_excel("resultado.xlsx", index= False)
 
