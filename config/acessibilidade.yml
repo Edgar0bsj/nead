@@ -1,0 +1,20 @@
+acessibilidade:
+  - nome: deficiencia_visual
+    externo_id: def_visual
+    tipo: visual
+
+  - nome: deficiencia_auditiva
+    externo_id: def_auditiva
+    tipo: auditory
+
+  - nome: deficiencia_intelectual
+    externo_id: def_intelectual
+    tipo: intellectual
+
+  - nome: deficiencia_fisica
+    externo_id: def_fisica
+    tipo: physical
+
+  - nome: outros
+    externo_id: def_outros
+    tipo: others
