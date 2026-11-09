@@ -6,22 +6,22 @@ acessibilidade_app = typer.Typer(help="Lidando com Acessibilidade")
 acess_ctrl = AcessibilidadeController()
 
 
-@acessibilidade_app.command(name="preview", help="Visualizar os dados")
-def preview():
-    acess = acess_ctrl.show_acessibilidade()
-    print(acess)
-
-
-@acessibilidade_app.command(name="check", help="Simular e validar o processamento")
-def check():
-    print("em desenvolvimento")
+@acessibilidade_app.command(
+    name="up",
+    help="Sobe dados de acessibilidades, Simular e Validar os dados deixando em cache",
+)
+def up():
+    try:
+        acess_ctrl.up()
+    except Exception as err:
+        print(err)
 
 
 @acessibilidade_app.command(name="report", help="Consultar o resultado da execução")
 def report():
-    print("em desenvolvimento")
+    acess_ctrl.report()
 
 
-@acessibilidade_app.command(name="generate", help="gera o CSV definitivo")
+@acessibilidade_app.command(name="build", help="gera o CSV definitivo")
 def generate():
-    print("em desenvolvimento")
+    acess_ctrl.to_manager_export()

@@ -94,3 +94,72 @@ class AcessibilidadeService:
                 padding=(1, 2),
             )
         )
+
+    # ===================================
+    def print_up_conclusao(self, data: list[AcessibilidadeObject]):
+        table = Table(
+            title="Registros",
+            box=box.ROUNDED,
+            header_style="bold cyan",
+            border_style="bright_black",
+        )
+        table.add_column("Nome", style="white")
+        table.add_column("Externo ID", style="cyan")
+        table.add_column("Tipo", style="magenta")
+
+        for item in data:
+            table.add_row(item.nome, item.externo_id, item.tipo)
+
+        print("\n")
+        console.print(
+            Panel(
+                Group(
+                    f"[bold green]Dados Válidos[/bold green]\n"
+                    f"[bold cyan]{len(data)}[/bold cyan] registro analisados",
+                    table,
+                ),
+                title="Status",
+                border_style="cyan",
+                expand=False,
+            ),
+        )
+
+    # ===================================
+    def validation(self, acess_yaml: list[AcessibilidadeObject]):
+        for e in acess_yaml:
+            nome = e.nome
+            externo_id = e.externo_id
+            tipo = e.tipo
+
+            nome_exist = [i for i in acess_yaml if i.nome == nome]
+            nome_externo_id = [i for i in acess_yaml if i.externo_id == externo_id]
+            nome_tipo = [i for i in acess_yaml if i.tipo == tipo]
+
+            if len(nome_exist) > 1:
+                raise ValueError("Nome Duplicado")
+
+            if len(nome_externo_id) > 1:
+                raise ValueError("Externo Id Duplicado")
+
+            if len(nome_tipo) > 1:
+                raise ValueError("Tipo Duplicado")
+
+    # ===================================
+    def show_sucesso_info(self, df: pd.DataFrame):
+        summary = Table.grid(expand=True)
+        summary.add_column(justify="center")
+        summary.add_column(justify="center")
+
+        summary.add_row(
+            f"[bold cyan]{len(df)}[/]\n[dim]QUANTIDADE[/]",
+            "[bold green]acessibilidade.yml[/]\n[dim]Origin dos dados[/]",
+        )
+
+        console.print(
+            Panel(
+                Group(summary),
+                title="Status",
+                border_style="cyan",
+                expand=False,
+            )
+        )

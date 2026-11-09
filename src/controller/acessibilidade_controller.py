@@ -1,20 +1,27 @@
-from src.repository.acessibilidade_repo import AcessibilidadeObject, AcessibilidadeRepo
+from rich.console import Console
+
+from src.repository.acessibilidade_repo import AcessibilidadeRepo
 from src.service.acessibilidade_service import AcessibilidadeService
+
+console = Console()
 
 
 class AcessibilidadeController:
+
     def __init__(self):
         self.repo = AcessibilidadeRepo()
         self.service = AcessibilidadeService()
 
-    def show_acessibilidade(self) -> list[AcessibilidadeObject]:
-        return self.repo.find_all()
+    def up(self) -> None:
+        acess_yaml = self.repo.find_all()
+        self.service.validation(acess_yaml)
+        self.service.print_up_conclusao(acess_yaml)
+
+        return acess_yaml
 
     def to_manager_export(self) -> None:
         acess_yaml = self.repo.find_all()
+        self.service.validation(acess_yaml)
         df = self.service.create_dataframe(acess_yaml)
         self.service.export_df_to_csv(df)
-
-    def preview(self) -> None:
-        acess_yaml = self.repo.find_all()
-        self.service.show_preview(acess_yaml)
+        self.service.show_sucesso_info(df)
