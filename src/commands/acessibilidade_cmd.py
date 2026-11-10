@@ -1,6 +1,6 @@
 import typer
 
-from src.controller.acessibilidade_controller import AcessibilidadeController
+from src.controller.acessibilidade_ctrl import AcessibilidadeController
 
 acessibilidade_app = typer.Typer(help="Lidando com Acessibilidade")
 acess_ctrl = AcessibilidadeController()
