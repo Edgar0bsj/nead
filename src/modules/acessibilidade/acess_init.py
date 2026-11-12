@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from src.infra.database import DATABASE_URL, Base
 
 
-class AcessLoad:
+class AcessInit:
     def __init__(self):
         engine = create_engine(DATABASE_URL, echo=False)
         Base.metadata.create_all(engine)

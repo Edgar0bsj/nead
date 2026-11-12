@@ -1,25 +1,28 @@
+from pathlib import Path
 from unittest.mock import MagicMock
 
 import pytest
 
-from src.load.init_load import AcessibilidadeController
-from src.model.acessibilidade_model import AcessibilidadeModel
+from src.modules import AcessibilidadeLoad
 
 
 @pytest.fixture
 def acessibilidade():
-    return AcessibilidadeController()
+    return AcessibilidadeLoad()
 
 
-def test_acess_created(acessibilidade: AcessibilidadeController):
-    acess = AcessibilidadeModel(
-        name="gegege1", externalId="112122121@321", accessibilityTypeId="T1e2ste2"
-    )
-    acessibilidade.save(acess)
+# def test_acess_created(acessibilidade: AcessibilidadeController):
+#     path_file = Path(__file__).resolve().parent.parent.parent
+#     file_csv = Path("inputs/data.csv")
+#     file = path_file / file_csv
+
+#     result = acessibilidade.read_csv(file)
+
+#     [acessibilidade.save(e) for e in result]
 
 
-# def test_acess_update(acessibilidade: AcessibilidadeController):
-#     acess = AcessibilidadeModel(
-#         name="gegege", externalId="12122121@321", accessibilityTypeId="Te2ste2"
-#     )
-#     acessibilidade.updated(acess)
+def test_acess(acessibilidade: AcessibilidadeLoad):
+
+    result = acessibilidade.deleted_to_externoId("def_teste")
+
+    print(result)
