@@ -23,6 +23,6 @@ def acessibilidade():
 
 def test_acess(acessibilidade: AcessibilidadeLoad):
 
-    result = acessibilidade.deleted_to_externoId("def_teste")
+    result = acessibilidade.export_tamplate()
 
     print(result)
