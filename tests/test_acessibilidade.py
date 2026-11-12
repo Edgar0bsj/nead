@@ -23,6 +23,6 @@ def acessibilidade():
 
 def test_acess(acessibilidade: AcessibilidadeLoad):
 
-    result = acessibilidade.export_tamplate()
+    result = acessibilidade.logger_dir()
 
     print(result)

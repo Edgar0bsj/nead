@@ -3,6 +3,7 @@ from src.modules.acessibilidade.acess_deleted import AcessDeleted
 from src.modules.acessibilidade.acess_export import AcessExport
 from src.modules.acessibilidade.acess_finds import AcessFinds
 from src.modules.acessibilidade.acess_init import AcessInit
+from src.modules.acessibilidade.acess_logger import AcessLogger
 from src.modules.acessibilidade.acess_read_csv import AcessReadCsv
 from src.modules.acessibilidade.acess_updated import AcessUpdated
 
@@ -15,8 +16,10 @@ class AcessibilidadeLoad(
     AcessFinds,
     AcessDeleted,
     AcessExport,
+    AcessLogger,
 ):
     def __init__(self):
+        AcessLogger.__init__(self)
         AcessInit.__init__(self)
         AcessReadCsv.__init__(self)
         AcessCreated.__init__(self)
