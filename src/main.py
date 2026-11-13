@@ -1,6 +1,6 @@
 import typer
 
-from src.commands.acessibilidade_cmd import acessibilidade_app
+from src.handler.command_handler import acess_csv_created, acess_init
 
 app = typer.Typer(
     name="nead",
@@ -8,7 +8,23 @@ app = typer.Typer(
     epilog="Se funcionou de primeira, não mexe. Não olhe fixamente. Não faça barulho. Apenas aceite o milagre",
 )
 
-app.add_typer(acessibilidade_app, name="acess")
+
+@app.callback()
+def main():
+    """Ferramenta de integração de dados."""
+
+
+@app.command()
+def init(acess: bool = typer.Option(False, "--acess", "-ass")):
+    if acess:
+        acess_init()
+
+
+@app.command()
+def exec(acess: bool = typer.Option(False, "--acess", "-ass")):
+    if acess:
+        acess_csv_created()
+
 
 # =============================================
 # START
